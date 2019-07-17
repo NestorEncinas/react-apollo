@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./styles/index.css";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
-
+import { BrowserRouter } from "react-router-dom";
 /**
  * 1 - You are importing the required dependecies from the installed packages
  */
@@ -36,9 +36,11 @@ const client = new ApolloClient({
  */
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
+  <BrowserRouter>
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </BrowserRouter>,
   document.getElementById("root")
 );
 
