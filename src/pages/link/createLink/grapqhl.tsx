@@ -6,7 +6,7 @@ import CreateLink from "./index";
 
 import { RouteComponentProps } from "react-router-dom";
 
-type ICreateLink = {
+type TCreateLink = {
   post: {
     id: string;
     createdAt: Date;
@@ -33,7 +33,7 @@ const CreateLinkMutationGQL: React.FC<ICreateLinkMutationGQLProps> = ({
 }) => {
   return (
     <div>
-      <Mutation<ICreateLink>
+      <Mutation<TCreateLink>
         mutation={POST_MUTATION}
         onCompleted={() => history.push("/")}
       >

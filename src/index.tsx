@@ -4,6 +4,10 @@ import "./styles/index.css";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
+import { setContext } from "apollo-link-context";
+
+import { AUTH_TOKEN } from "./utils/constants";
+
 /**
  * 1 - You are importing the required dependecies from the installed packages
  */
@@ -11,6 +15,16 @@ import { ApolloProvider } from "react-apollo";
 import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem(AUTH_TOKEN);
+  return {
+    header: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : ""
+    }
+  };
+});
 
 /**
  * 2 - Here you create the httpLink that will connect your ApolloClient instance
@@ -26,7 +40,7 @@ const httpLink = createHttpLink({
  */
 
 const client = new ApolloClient({
-  link: httpLink,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache()
 });
 

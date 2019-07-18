@@ -1,9 +1,10 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 
-import Header from "../components/Routing/index";
-import LinkList from "../pages/link/index";
-import CreateLinkMutationGQL from "../pages/link/createLink/grapqhl";
+import Header from "components/Routing/index";
+import LinkList from "pages/link/index";
+import CreateLinkMutationGQL from "pages/link/createLink/grapqhl";
+import Login from "components/Login/graphql";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={LinkList} />
           <Route exact path="/create" component={CreateLinkMutationGQL} />
+          <Route exact path="/login" component={Login} />
         </Switch>
       </div>
     </div>

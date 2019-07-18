@@ -1,8 +1,9 @@
 import React from "react";
+import { Query, Mutation } from "react-apollo";
+
 import Link from "./linkList/index";
 
-import { FEED_QUERY, IData } from "./graphql";
-import { Query } from "react-apollo";
+import { FEED_QUERY, IData, VOTE_MUTATION, IVoteMutation } from "./graphql";
 
 const LinkList: React.FC = () => {
   return (
@@ -13,11 +14,23 @@ const LinkList: React.FC = () => {
 
         const linksToRender = data!.feed.links;
         return (
-          <div>
-            {linksToRender.map(link => (
-              <Link key={link.id} link={link} />
-            ))}
-          </div>
+          <Mutation<IVoteMutation> mutation={VOTE_MUTATION}>
+            {voteMutation => (
+              <div>
+                {linksToRender.map((link, index) => (
+                  <Link
+                    key={link.id}
+                    link={link}
+                    index={index}
+                    //@ts-ignore
+                    voteMutation={({ id }) =>
+                      voteMutation({ variables: { id } })
+                    }
+                  />
+                ))}
+              </div>
+            )}
+          </Mutation>
         );
       }}
     </Query>

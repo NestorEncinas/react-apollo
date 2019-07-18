@@ -1,6 +1,6 @@
 import React from "react";
 
-import InputComponent from "../../../components/Input/index";
+import InputComponent from "components/Input/index";
 
 type TPostMutationValues = {
   description: string;
