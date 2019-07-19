@@ -11,14 +11,12 @@ interface ICreateLinkProps {
   postMutation: (values: TPostMutationValues) => Promise<any>;
 }
 
-// eslint-disable-next-line
 const CreateLink: React.FC<ICreateLinkProps> = ({ postMutation }) => {
   const [description, setDescription] = React.useState("");
   const [url, setUrl] = React.useState("");
 
   return (
-    <div className="flex flex-column mt3">
-      {/* // <form className={classes.container} noValidate> */}
+    <div className="flex flex-column mt3">      
       <InputComponent
         label="Description"
         value={description}
@@ -35,8 +33,7 @@ const CreateLink: React.FC<ICreateLinkProps> = ({ postMutation }) => {
         }}
       >
         Submit
-      </button>
-      {/* // </form> */}
+      </button>      
     </div>
   );
 };

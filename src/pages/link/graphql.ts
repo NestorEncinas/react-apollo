@@ -30,17 +30,14 @@ export interface IData {
 export interface IVoteMutation {
   vote: {
     id: string;
-    link: {
-      votes: {
+    link: Array<{
+      votes: Array<{
         id: string;
-        user: {
+        user: Array<{
           id: string;
-        };
-      };
-      user: {
-        id: string;
-      };
-    };
+        }>
+      }>
+    }>
   };
 }
 

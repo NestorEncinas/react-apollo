@@ -5,6 +5,7 @@ import Header from "components/Routing/index";
 import LinkList from "pages/link/index";
 import CreateLinkMutationGQL from "pages/link/createLink/grapqhl";
 import Login from "components/Login/graphql";
+import Search from "pages/search/index"
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route exact path="/" component={LinkList} />
           <Route exact path="/create" component={CreateLinkMutationGQL} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/search" component={Search} />
         </Switch>
       </div>
     </div>

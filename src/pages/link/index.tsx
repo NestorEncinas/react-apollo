@@ -1,9 +1,17 @@
 import React from "react";
 import { Query, Mutation } from "react-apollo";
+// generic mutation typescript
+// import { MutationFn } from "react-apollo"
 
 import Link from "./linkList/index";
 
-import { FEED_QUERY, IData, VOTE_MUTATION, IVoteMutation } from "./graphql";
+import {
+  FEED_QUERY,
+  IData,
+  VOTE_MUTATION,
+  IVoteMutation,
+  TLink
+} from "./graphql";
 
 const LinkList: React.FC = () => {
   return (
@@ -13,25 +21,38 @@ const LinkList: React.FC = () => {
         if (error) return `Error! ${error.message}`;
 
         const linksToRender = data!.feed.links;
-        return (
-          <Mutation<IVoteMutation> mutation={VOTE_MUTATION}>
-            {voteMutation => (
-              <div>
-                {linksToRender.map((link, index) => (
+
+        return linksToRender.map((link, index) => {
+          return (
+            // generic mutation typescript
+            // <Mutation<MutationFn>
+            <Mutation<IVoteMutation>
+              mutation={VOTE_MUTATION}
+              //@ts-ignore TODO: find out how to typed data
+              update={(store, { data: { vote } }) => {
+                const data = store.readQuery<IData>({ query: FEED_QUERY });
+                const votedLink = data!.feed.links.find(
+                  (l: TLink) => l.id === link.id
+                );
+                votedLink!.votes = vote.link.votes;
+
+                store.writeQuery({ query: FEED_QUERY, data });
+              }}
+            >
+              {voteMutation => (
+                <div>
                   <Link
-                    key={link.id}
                     link={link}
                     index={index}
-                    //@ts-ignore
-                    voteMutation={({ id }) =>
-                      voteMutation({ variables: { id } })
+                    voteMutation={({ linkId }) =>
+                      voteMutation({ variables: { linkId } })
                     }
                   />
-                ))}
-              </div>
-            )}
-          </Mutation>
-        );
+                </div>
+              )}
+            </Mutation>
+          );
+        });
       }}
     </Query>
   );

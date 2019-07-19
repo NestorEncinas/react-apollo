@@ -50,9 +50,10 @@ async function vote(parent, args, context) {
     user: { id: userId },
     link: { id: args.linkId }
   });
-  if (linkExists) {
-    throw new Error(`Already voted for link: ${args.linkId}`);
-  }
+
+  // if (linkExists) {
+  //   throw new Error(`Already voted for link: ${args.linkId}`);
+  // }
 
   return context.prisma.createVote({
     user: { connect: { id: userId } },

@@ -5,6 +5,7 @@ import { Mutation } from "react-apollo";
 import CreateLink from "./index";
 
 import { RouteComponentProps } from "react-router-dom";
+import { FEED_QUERY, IData } from "../graphql";
 
 type TCreateLink = {
   post: {
@@ -35,6 +36,13 @@ const CreateLinkMutationGQL: React.FC<ICreateLinkMutationGQLProps> = ({
     <div>
       <Mutation<TCreateLink>
         mutation={POST_MUTATION}
+        //@ts-ignore TODO: find out how to typed data
+        update={(store, { data: { post }}) => {
+          const data = store.readQuery<IData>({query: FEED_QUERY});
+          data!.feed.links.unshift(post);
+          
+          store.writeQuery({query: FEED_QUERY, data})
+        }}
         onCompleted={() => history.push("/")}
       >
         {postMutation => (
