@@ -19,11 +19,13 @@ export type TLink = {
   description: string;
   postedBy: TPostedBy;
   votes: TVotes[];
+  
 };
 
 export interface IData {
   feed: {
     links: TLink[];
+    count: number;
   };
 }
 
@@ -35,15 +37,15 @@ export interface IVoteMutation {
         id: string;
         user: Array<{
           id: string;
-        }>
-      }>
-    }>
+        }>;
+      }>;
+    }>;
   };
 }
 
 export const FEED_QUERY = gql`
-  {
-    feed {
+  query FeedQuery($first: Int, $skip: Int, $orderBy: LinkOrderByInput) {
+    feed(first: $first, skip: $skip, orderBy: $orderBy) {
       links {
         id
         createdAt
@@ -60,6 +62,7 @@ export const FEED_QUERY = gql`
           }
         }
       }
+      count
     }
   }
 `;
@@ -69,6 +72,54 @@ export const VOTE_MUTATION = gql`
     vote(linkId: $linkId) {
       id
       link {
+        votes {
+          id
+          user {
+            id
+          }
+        }
+      }
+      user {
+        id
+      }
+    }
+  }
+`;
+
+export const NEW_LINKS_SUBSCRIPTION = gql`
+  subscription {
+    newLink {
+      id
+      url
+      description
+      createdAt
+      postedBy {
+        id
+        name
+      }
+      votes {
+        id
+        user {
+          id
+        }
+      }
+    }
+  }
+`;
+
+export const NEW_VOTES_SUBSCRIPTION = gql`
+  subscription {
+    newVote {
+      id
+      link {
+        id
+        url
+        description
+        createdAt
+        postedBy {
+          id
+          name
+        }
         votes {
           id
           user {
