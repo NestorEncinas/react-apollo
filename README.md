@@ -1,3 +1,6 @@
+How to Grapqhl tutorial with React, apollo and BE node with prisma (Waiting for Prisma 2.0 :))
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
